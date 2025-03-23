@@ -35,8 +35,6 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
             getLogger().warning("Config folder can not be written. Check read/write permissions.");
         }
         saveDefaultConfig();
-
-//        protocolManager = ProtocolLibrary.getProtocolManager();
         modifiedSpike = new NamespacedKey(this, "modified-spike");
         dragonRespawnspikeModifier = new DragonRespawnSpikeModifier(this);
         endCityModifier = new EndCityModifier(this);
@@ -54,19 +52,16 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
     public void reload(boolean isOnEnable) {
         if (!isOnEnable) {
             PacketEvents.getAPI().getEventManager().unregisterAllListeners();
-//            protocolManager.removePacketListeners(this);
             dragonRespawnspikeModifier.unregister();
             endCityModifier.unregister();
         }
 
         if (getConfig().getBoolean("randomize_hashed_seed.login", true)) {
             PacketEvents.getAPI().getEventManager().registerListener(new ServerLogin(this));
-//            protocolManager.addPacketListener(new ServerLogin(this));
         }
 
         if (getConfig().getBoolean("randomize_hashed_seed.respawn", true)) {
             PacketEvents.getAPI().getEventManager().registerListener(new ServerRespawn(this));
-//            protocolManager.addPacketListener(new ServerRespawn(this));
         }
 
         if (getConfig().getBoolean("modifiers.end_spikes.enabled", false)) {
@@ -92,7 +87,6 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
 
     @Override
     public void onDisable() {
-//        protocolManager.removePacketListeners(this);
         PacketEvents.getAPI().getEventManager().unregisterAllListeners();
         dragonRespawnspikeModifier.unregister();
         endCityModifier.unregister();
