@@ -1,8 +1,6 @@
 package me.gadse.antiseedcracker;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-
+import com.github.retrooper.packetevents.PacketEvents;
 import me.gadse.antiseedcracker.commands.AntiSeedCrackerCommand;
 import me.gadse.antiseedcracker.listeners.DragonRespawnSpikeModifier;
 import me.gadse.antiseedcracker.listeners.EndCityModifier;
@@ -26,7 +24,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor {
 
-    private ProtocolManager protocolManager;
     private NamespacedKey modifiedSpike;
 
     private DragonRespawnSpikeModifier dragonRespawnspikeModifier;
@@ -39,7 +36,7 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
         }
         saveDefaultConfig();
 
-        protocolManager = ProtocolLibrary.getProtocolManager();
+//        protocolManager = ProtocolLibrary.getProtocolManager();
         modifiedSpike = new NamespacedKey(this, "modified-spike");
         dragonRespawnspikeModifier = new DragonRespawnSpikeModifier(this);
         endCityModifier = new EndCityModifier(this);
@@ -56,17 +53,20 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
 
     public void reload(boolean isOnEnable) {
         if (!isOnEnable) {
-            protocolManager.removePacketListeners(this);
+            PacketEvents.getAPI().getEventManager().unregisterAllListeners();
+//            protocolManager.removePacketListeners(this);
             dragonRespawnspikeModifier.unregister();
             endCityModifier.unregister();
         }
 
         if (getConfig().getBoolean("randomize_hashed_seed.login", true)) {
-            protocolManager.addPacketListener(new ServerLogin(this));
+            PacketEvents.getAPI().getEventManager().registerListener(new ServerLogin(this));
+//            protocolManager.addPacketListener(new ServerLogin(this));
         }
 
         if (getConfig().getBoolean("randomize_hashed_seed.respawn", true)) {
-            protocolManager.addPacketListener(new ServerRespawn(this));
+            PacketEvents.getAPI().getEventManager().registerListener(new ServerRespawn(this));
+//            protocolManager.addPacketListener(new ServerRespawn(this));
         }
 
         if (getConfig().getBoolean("modifiers.end_spikes.enabled", false)) {
@@ -92,7 +92,8 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
 
     @Override
     public void onDisable() {
-        protocolManager.removePacketListeners(this);
+//        protocolManager.removePacketListeners(this);
+        PacketEvents.getAPI().getEventManager().unregisterAllListeners();
         dragonRespawnspikeModifier.unregister();
         endCityModifier.unregister();
     }
