@@ -50,9 +50,10 @@ public class VillageModifier implements Listener {
 
                 int modifiedBlockCount = 0;
                 // Modify hay bales to hay blocks (subtle change that affects structure recognition)
+                // Villages are typically at surface level, so limit Y range for performance
                 for (int x = 0; x < 16; x++) {
                     for (int z = 0; z < 16; z++) {
-                        for (int y = world.getMinHeight(); y < world.getMaxHeight(); y++) {
+                        for (int y = 60; y <= 120; y++) { // Limited Y range for villages
                             Block block = event.getChunk().getBlock(x, y, z);
                             if (block.getType() == Material.HAY_BLOCK) {
                                 block.setType(Material.DRIED_KELP_BLOCK);

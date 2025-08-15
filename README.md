@@ -15,6 +15,8 @@ A Spigot plugin making an effort to work against seed cracking mods.
 - Modification of villages
 - Modification of bastion remnants
 - Modification of ocean monuments
+- Modification of desert pyramids
+- Modification of strongholds
 
 ## Help wanted/Features planned
 

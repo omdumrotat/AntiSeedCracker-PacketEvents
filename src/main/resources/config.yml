@@ -59,3 +59,21 @@ modifiers:
     # The worlds ocean monuments are allowed to be modified in.
     worlds:
       - "world"
+
+  # Modification of desert pyramids (sandstone -> smooth_sandstone).
+  # This change affects structure recognition in desert pyramids.
+  desert_pyramids:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds desert pyramids are allowed to be modified in.
+    worlds:
+      - "world"
+
+  # Modification of strongholds (stone_bricks -> cracked_stone_bricks).
+  # This change affects structure recognition in strongholds.
+  strongholds:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds strongholds are allowed to be modified in.
+    worlds:
+      - "world"

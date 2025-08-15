@@ -14,43 +14,43 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Collection;
 
-public class OceanMonumentModifier implements Listener {
+public class StrongholdModifier implements Listener {
 
     private final AntiSeedCracker plugin;
-    private final NamespacedKey monumentModified;
+    private final NamespacedKey strongholdModified;
 
-    public OceanMonumentModifier(AntiSeedCracker plugin) {
+    public StrongholdModifier(AntiSeedCracker plugin) {
         this.plugin = plugin;
-        this.monumentModified = new NamespacedKey(plugin, "monument-modified");
+        this.strongholdModified = new NamespacedKey(plugin, "stronghold-modified");
     }
 
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent event) {
         World world = event.getWorld();
         if (world.getEnvironment() != World.Environment.NORMAL
-                || !plugin.getConfig().getStringList("modifiers.ocean_monuments.worlds").contains(world.getName())) {
+                || !plugin.getConfig().getStringList("modifiers.strongholds.worlds").contains(world.getName())) {
             return;
         }
 
-        Collection<GeneratedStructure> structures = event.getChunk().getStructures(Structure.MONUMENT);
+        Collection<GeneratedStructure> structures = event.getChunk().getStructures(Structure.STRONGHOLD);
         if (structures.isEmpty()) {
             return;
         }
 
         for (GeneratedStructure structure : structures) {
-            if (structure.getPersistentDataContainer().getOrDefault(monumentModified, PersistentDataType.BOOLEAN, false)) {
+            if (structure.getPersistentDataContainer().getOrDefault(strongholdModified, PersistentDataType.BOOLEAN, false)) {
                 continue;
             }
 
             int modifiedBlockCount = 0;
-            // Modify prismarine to dark prismarine (subtle change that affects structure recognition)
-            // Ocean monuments are underwater, typically at lower Y levels
+            // Modify stone bricks to cracked stone bricks (subtle change that affects structure recognition)
+            // Strongholds are underground, typically in lower Y ranges
             for (int x = 0; x < 16; x++) {
                 for (int z = 0; z < 16; z++) {
-                    for (int y = 20; y <= 80; y++) { // Limited Y range for ocean monuments
+                    for (int y = -20; y <= 60; y++) { // Limited Y range for strongholds
                         Block block = event.getChunk().getBlock(x, y, z);
-                        if (block.getType() == Material.PRISMARINE) {
-                            block.setType(Material.DARK_PRISMARINE);
+                        if (block.getType() == Material.STONE_BRICKS) {
+                            block.setType(Material.CRACKED_STONE_BRICKS);
                             modifiedBlockCount++;
                         }
                     }
@@ -58,7 +58,7 @@ public class OceanMonumentModifier implements Listener {
             }
 
             if (modifiedBlockCount > 0) {
-                structure.getPersistentDataContainer().set(monumentModified, PersistentDataType.BOOLEAN, true);
+                structure.getPersistentDataContainer().set(strongholdModified, PersistentDataType.BOOLEAN, true);
             }
         }
     }

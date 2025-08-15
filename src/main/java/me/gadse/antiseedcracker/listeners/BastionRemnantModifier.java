@@ -44,9 +44,10 @@ public class BastionRemnantModifier implements Listener {
 
             int modifiedBlockCount = 0;
             // Modify gold blocks to gilded blackstone (subtle change that affects structure recognition)
+            // Bastions are typically in the middle Y range of the Nether
             for (int x = 0; x < 16; x++) {
                 for (int z = 0; z < 16; z++) {
-                    for (int y = world.getMinHeight(); y < world.getMaxHeight(); y++) {
+                    for (int y = 30; y <= 110; y++) { // Limited Y range for bastions
                         Block block = event.getChunk().getBlock(x, y, z);
                         if (block.getType() == Material.GOLD_BLOCK) {
                             block.setType(Material.GILDED_BLACKSTONE);
