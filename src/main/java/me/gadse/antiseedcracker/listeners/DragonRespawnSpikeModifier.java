@@ -1,5 +1,6 @@
 package me.gadse.antiseedcracker.listeners;
 
+import com.tcoded.folialib.FoliaLib;
 import me.gadse.antiseedcracker.AntiSeedCracker;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,12 +17,15 @@ import org.bukkit.persistence.PersistentDataType;
 public class DragonRespawnSpikeModifier implements Listener {
 
     private final AntiSeedCracker plugin;
+    private final FoliaLib foliaLib;
     private boolean taskScheduled = false;
+    private Object currentTask = null;
 
     private EntityType crystalType;
 
-    public DragonRespawnSpikeModifier(AntiSeedCracker plugin) {
+    public DragonRespawnSpikeModifier(AntiSeedCracker plugin, FoliaLib foliaLib) {
         this.plugin = plugin;
+        this.foliaLib = foliaLib;
 
         try {
             crystalType = EntityType.END_CRYSTAL;
@@ -46,11 +50,19 @@ public class DragonRespawnSpikeModifier implements Listener {
         world.getPersistentDataContainer().set(plugin.getModifiedSpike(), PersistentDataType.BOOLEAN, false);
 
         taskScheduled = true;
-        plugin.getServer().getScheduler().runTaskTimer(plugin, task -> {
+        
+        // Use FoliaLib for cross-platform scheduler compatibility
+        // Schedule a repeating task that will check the dragon battle status
+        currentTask = foliaLib.getScheduler().runTimer(() -> {
+            if (!taskScheduled) {
+                return; // Task was externally cancelled
+            }
+            
             DragonBattle dragonBattle = world.getEnderDragonBattle();
             if (dragonBattle == null) {
                 // Fall-back, should not be reachable.
                 plugin.modifyEndSpikes(world);
+                taskScheduled = false;
                 return;
             }
 
@@ -62,7 +74,6 @@ public class DragonRespawnSpikeModifier implements Listener {
 
             plugin.modifyEndSpikes(world);
             taskScheduled = false;
-            task.cancel();
         }, 300L, 20L);
     }
 
@@ -80,5 +91,6 @@ public class DragonRespawnSpikeModifier implements Listener {
 
     public void unregister() {
         EntityPlaceEvent.getHandlerList().unregister(this);
+        taskScheduled = false; // Stop any running tasks
     }
 }

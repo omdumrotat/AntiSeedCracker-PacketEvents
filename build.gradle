@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group = 'me.gadse'
@@ -17,11 +18,16 @@ repositories {
     maven {
         url = "https://repo.dmulloy2.net/repository/public/"
     }
+    maven {
+        name = "tcoded-releases"
+        url = "https://repo.tcoded.com/releases"
+    }
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT'
     compileOnly 'com.github.retrooper:packetevents-spigot:2.7.0'
+    implementation 'com.tcoded:FoliaLib:0.5.1'
 }
 
 def targetJavaVersion = 17
@@ -47,4 +53,8 @@ processResources {
     filesMatching('plugin.yml') {
         expand props
     }
+}
+
+shadowJar {
+    relocate("com.tcoded.folialib", "me.gadse.antiseedcracker.lib.folialib")
 }
