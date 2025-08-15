@@ -32,3 +32,112 @@ modifiers:
     # The worlds end cities are allowed to be modified in.
     worlds:
       - "world_the_end"
+
+  # Modification of villages (hay_block -> dried_kelp_block).
+  # This subtle change affects structure recognition while maintaining visual similarity.
+  villages:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds villages are allowed to be modified in.
+    worlds:
+      - "world"
+
+  # Modification of bastion remnants (gold_block -> gilded_blackstone).
+  # This change affects structure recognition in nether bastions.
+  bastion_remnants:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds bastion remnants are allowed to be modified in.
+    worlds:
+      - "world_nether"
+
+  # Modification of ocean monuments (prismarine -> dark_prismarine).
+  # This change affects structure recognition in ocean monuments.
+  ocean_monuments:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds ocean monuments are allowed to be modified in.
+    worlds:
+      - "world"
+
+  # Modification of desert pyramids (sandstone -> smooth_sandstone).
+  # This change affects structure recognition in desert pyramids.
+  desert_pyramids:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds desert pyramids are allowed to be modified in.
+    worlds:
+      - "world"
+
+  # Modification of strongholds (stone_bricks -> cracked_stone_bricks).
+  # This change affects structure recognition in strongholds.
+  strongholds:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds strongholds are allowed to be modified in.
+    worlds:
+      - "world"
+
+  # Modification of woodland mansions (dark_oak_planks -> dark_oak_log).
+  # This change affects structure recognition in woodland mansions.
+  woodland_mansions:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds woodland mansions are allowed to be modified in.
+    worlds:
+      - "world"
+
+  # Modification of shipwrecks (oak_planks -> oak_log).
+  # This change affects structure recognition in shipwrecks.
+  shipwrecks:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds shipwrecks are allowed to be modified in.
+    worlds:
+      - "world"
+
+  # Modification of ocean ruins (stone_bricks -> mossy_stone_bricks).
+  # This change affects structure recognition in ocean ruins.
+  ocean_ruins:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds ocean ruins are allowed to be modified in.
+    worlds:
+      - "world"
+
+  # Modification of jungle temples (cobblestone -> mossy_cobblestone).
+  # This change affects structure recognition in jungle temples.
+  jungle_temples:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds jungle temples are allowed to be modified in.
+    worlds:
+      - "world"
+
+  # Modification of pillager outposts (dark_oak_log -> stripped_dark_oak_log).
+  # This change affects structure recognition in pillager outposts.
+  pillager_outposts:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds pillager outposts are allowed to be modified in.
+    worlds:
+      - "world"
+
+  # Modification of ruined portals (obsidian -> crying_obsidian).
+  # This change affects structure recognition in ruined portals.
+  ruined_portals:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds ruined portals are allowed to be modified in.
+    worlds:
+      - "world"
+      - "world_nether"
+
+  # Modification of nether fortresses (nether_bricks -> cracked_nether_bricks).
+  # This change affects structure recognition in nether fortresses.
+  nether_fortresses:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds nether fortresses are allowed to be modified in.
+    worlds:
+      - "world_nether"
