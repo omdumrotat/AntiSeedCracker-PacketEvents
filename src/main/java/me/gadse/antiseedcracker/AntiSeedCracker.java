@@ -1,6 +1,7 @@
 package me.gadse.antiseedcracker;
 
 import com.github.retrooper.packetevents.PacketEvents;
+import com.tcoded.folialib.FoliaLib;
 import me.gadse.antiseedcracker.commands.AntiSeedCrackerCommand;
 import me.gadse.antiseedcracker.listeners.DragonRespawnSpikeModifier;
 import me.gadse.antiseedcracker.listeners.EndCityModifier;
@@ -25,6 +26,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor {
 
     private NamespacedKey modifiedSpike;
+    private FoliaLib foliaLib;
 
     private DragonRespawnSpikeModifier dragonRespawnspikeModifier;
     private EndCityModifier endCityModifier;
@@ -35,8 +37,12 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
             getLogger().warning("Config folder can not be written. Check read/write permissions.");
         }
         saveDefaultConfig();
+        
+        // Initialize FoliaLib
+        foliaLib = new FoliaLib(this);
+        
         modifiedSpike = new NamespacedKey(this, "modified-spike");
-        dragonRespawnspikeModifier = new DragonRespawnSpikeModifier(this);
+        dragonRespawnspikeModifier = new DragonRespawnSpikeModifier(this, foliaLib);
         endCityModifier = new EndCityModifier(this);
 
         PluginCommand command = getCommand("antiseedcracker");
@@ -90,6 +96,11 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
         PacketEvents.getAPI().getEventManager().unregisterAllListeners();
         dragonRespawnspikeModifier.unregister();
         endCityModifier.unregister();
+        
+        // Cancel all FoliaLib tasks
+        if (foliaLib != null) {
+            foliaLib.getScheduler().cancelAllTasks();
+        }
     }
 
     public long randomizeHashedSeed(long hashedSeed) {
@@ -164,5 +175,9 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
 
     public NamespacedKey getModifiedSpike() {
         return modifiedSpike;
+    }
+    
+    public FoliaLib getFoliaLib() {
+        return foliaLib;
     }
 }
