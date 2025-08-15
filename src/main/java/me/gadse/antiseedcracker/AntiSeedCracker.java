@@ -3,8 +3,11 @@ package me.gadse.antiseedcracker;
 import com.github.retrooper.packetevents.PacketEvents;
 import com.tcoded.folialib.FoliaLib;
 import me.gadse.antiseedcracker.commands.AntiSeedCrackerCommand;
+import me.gadse.antiseedcracker.listeners.BastionRemnantModifier;
 import me.gadse.antiseedcracker.listeners.DragonRespawnSpikeModifier;
 import me.gadse.antiseedcracker.listeners.EndCityModifier;
+import me.gadse.antiseedcracker.listeners.OceanMonumentModifier;
+import me.gadse.antiseedcracker.listeners.VillageModifier;
 import me.gadse.antiseedcracker.packets.ServerLogin;
 import me.gadse.antiseedcracker.packets.ServerRespawn;
 import org.bukkit.Location;
@@ -30,6 +33,9 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
 
     private DragonRespawnSpikeModifier dragonRespawnspikeModifier;
     private EndCityModifier endCityModifier;
+    private VillageModifier villageModifier;
+    private BastionRemnantModifier bastionRemnantModifier;
+    private OceanMonumentModifier oceanMonumentModifier;
 
     @Override
     public void onEnable() {
@@ -44,6 +50,9 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
         modifiedSpike = new NamespacedKey(this, "modified-spike");
         dragonRespawnspikeModifier = new DragonRespawnSpikeModifier(this, foliaLib);
         endCityModifier = new EndCityModifier(this);
+        villageModifier = new VillageModifier(this);
+        bastionRemnantModifier = new BastionRemnantModifier(this);
+        oceanMonumentModifier = new OceanMonumentModifier(this);
 
         PluginCommand command = getCommand("antiseedcracker");
         if (command == null) {
@@ -60,6 +69,9 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
             PacketEvents.getAPI().getEventManager().unregisterAllListeners();
             dragonRespawnspikeModifier.unregister();
             endCityModifier.unregister();
+            villageModifier.unregister();
+            bastionRemnantModifier.unregister();
+            oceanMonumentModifier.unregister();
         }
 
         if (getConfig().getBoolean("randomize_hashed_seed.login", true)) {
@@ -89,6 +101,18 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
         if (getConfig().getBoolean("modifiers.end_cities.enabled", false)) {
             getServer().getPluginManager().registerEvents(endCityModifier, this);
         }
+
+        if (getConfig().getBoolean("modifiers.villages.enabled", false)) {
+            getServer().getPluginManager().registerEvents(villageModifier, this);
+        }
+
+        if (getConfig().getBoolean("modifiers.bastion_remnants.enabled", false)) {
+            getServer().getPluginManager().registerEvents(bastionRemnantModifier, this);
+        }
+
+        if (getConfig().getBoolean("modifiers.ocean_monuments.enabled", false)) {
+            getServer().getPluginManager().registerEvents(oceanMonumentModifier, this);
+        }
     }
 
     @Override
@@ -96,6 +120,9 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
         PacketEvents.getAPI().getEventManager().unregisterAllListeners();
         dragonRespawnspikeModifier.unregister();
         endCityModifier.unregister();
+        villageModifier.unregister();
+        bastionRemnantModifier.unregister();
+        oceanMonumentModifier.unregister();
         
         // Cancel all FoliaLib tasks
         if (foliaLib != null) {

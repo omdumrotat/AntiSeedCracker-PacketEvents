@@ -32,3 +32,30 @@ modifiers:
     # The worlds end cities are allowed to be modified in.
     worlds:
       - "world_the_end"
+
+  # Modification of villages (hay_block -> dried_kelp_block).
+  # This subtle change affects structure recognition while maintaining visual similarity.
+  villages:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds villages are allowed to be modified in.
+    worlds:
+      - "world"
+
+  # Modification of bastion remnants (gold_block -> gilded_blackstone).
+  # This change affects structure recognition in nether bastions.
+  bastion_remnants:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds bastion remnants are allowed to be modified in.
+    worlds:
+      - "world_nether"
+
+  # Modification of ocean monuments (prismarine -> dark_prismarine).
+  # This change affects structure recognition in ocean monuments.
+  ocean_monuments:
+    # Whether this feature is enabled.
+    enabled: false
+    # The worlds ocean monuments are allowed to be modified in.
+    worlds:
+      - "world"
